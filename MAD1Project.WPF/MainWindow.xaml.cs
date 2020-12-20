@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mad1_Projekt.Generator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,8 @@ namespace MAD1Project.WPF
 
         private void GraphGeneratorButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var graphGenerator = new WattsStrogatzModelGenerator();
+            var graph = graphGenerator.Generate(1000, 0.5);
         }
 
         private void ClusteringButton_Click(object sender, RoutedEventArgs e)

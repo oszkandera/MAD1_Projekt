@@ -33,6 +33,12 @@ namespace Mad1_Projekt.Generator
             graph[node2].Add(node1);
         }
 
+        private void RemoveBidirectConnection(Dictionary<int, HashSet<int>> graph, int node1, int node2)
+        {
+            graph[node1].Remove(node2);
+            graph[node2].Remove(node1);
+        }
+
         private void CreateRewiredConnections(Dictionary<int, HashSet<int>> graph, double p)
         {
             var N = graph.Count;
@@ -45,15 +51,24 @@ namespace Mad1_Projekt.Generator
                     var generatedProbability = randomGenerator.NextDouble();
                     if(p >= generatedProbability)
                     {
+                        var nodeAlreadyExists = false;
                         int randomGeneratedNode;
                         do
                         {
                             randomGeneratedNode = randomGenerator.Next(0, N - 1);
-                        } while (randomGeneratedNode == y || randomGeneratedNode == i);
+                            if (graph[y].Contains(randomGeneratedNode))
+                            {
+                                nodeAlreadyExists = true;
+                            }
+                            else
+                            {
+                                nodeAlreadyExists = false;
+                            }
+                        } 
+                        while (randomGeneratedNode == y || randomGeneratedNode == i || nodeAlreadyExists);
 
-                        graph[i].Remove(y);
-                        graph[y].Remove(i);
-
+                        RemoveBidirectConnection(graph, i, y);
+                        
                         AddBidirectConnection(graph, y, randomGeneratedNode);
                     }
                 }
