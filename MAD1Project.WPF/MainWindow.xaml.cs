@@ -24,5 +24,25 @@ namespace MAD1Project.WPF
         {
             InitializeComponent();
         }
+
+        private void GraphGeneratorButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClusteringButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DegreeDistributionButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AverageDegreeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
