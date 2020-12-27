@@ -1,18 +1,13 @@
-﻿using Mad1_Projekt.Generator;
+﻿using Mad1_Projekt.Exporter;
+using Mad1_Projekt.Generator;
+using Mad1_Projekt.Processor;
+using MAD1Project.Core.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
 
 namespace MAD1Project.WPF
 {
@@ -21,30 +16,92 @@ namespace MAD1Project.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private Dictionary<int, HashSet<int>> _graph;
+
+        public object GetTimestampDateTime { get; private set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            GraphGeneratorButton.IsEnabled = false;
+            ClusteringButton.IsEnabled = false;
+            GraphExport.IsEnabled = false;
         }
 
         private void GraphGeneratorButton_Click(object sender, RoutedEventArgs e)
         {
+            var nodeNumber = Convert.ToInt32(NodeCountInput.Text);
+            var pParameter = Convert.ToDouble(ParameterPInput.Text);
+
             var graphGenerator = new WattsStrogatzModelGenerator();
-            var graph = graphGenerator.Generate(1000, 0.5);
+            _graph = graphGenerator.Generate(nodeNumber, pParameter);
+
+
+            ClusteringButton.IsEnabled = true;
+            GraphExport.IsEnabled = true;
+
+            MessageBox.Show("Graf úspěšně vytvořen");
         }
 
         private void ClusteringButton_Click(object sender, RoutedEventArgs e)
         {
+            var resultWindow = new ResultWindow(_graph);
+
+            resultWindow.Show();
 
         }
 
         private void DegreeDistributionButton_Click(object sender, RoutedEventArgs e)
         {
+            var basicGraphProcessor = new BasicGraphProcessor();
+            var degreeDistribution = basicGraphProcessor.GetDegreeDistribution(_graph);
+            var dataPoints = degreeDistribution.ToDataPointList();
 
+            var graphWindow = new GraphWindow(dataPoints);
+
+            graphWindow.Show();
         }
 
-        private void AverageDegreeButton_Click(object sender, RoutedEventArgs e)
+        private void GraphExport_Click(object sender, RoutedEventArgs e)
         {
 
+            using (var folderBrowserDialog = new FolderBrowserDialog())
+            {
+                folderBrowserDialog.ShowDialog();
+                var selectedPath = folderBrowserDialog.SelectedPath;
+
+                var fullPath = Path.Join(selectedPath, $"small_world_model_{DateTime.Now.ToString("yyyyMMddHHmmssffff")}.csv");
+
+                using(var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    var graphToCsvExporter = new GraphToCsvExporter();
+                    graphToCsvExporter.Export(stream, _graph);
+                }
+            }
+        }
+
+        private void GenerateGraphInputCheckEvent(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(String.IsNullOrWhiteSpace(ParameterPInput.Text) || String.IsNullOrWhiteSpace(NodeCountInput.Text))
+            {
+                GraphGeneratorButton.IsEnabled = false;
+                return;
+            }
+
+            if(!Double.TryParse(ParameterPInput.Text, out double parameterP))
+            {
+                GraphGeneratorButton.IsEnabled = false;
+                return;
+            }
+
+            if (!Int32.TryParse(NodeCountInput.Text, out int nodeCount))
+            {
+                GraphGeneratorButton.IsEnabled = false;
+                return;
+            }
+
+            GraphGeneratorButton.IsEnabled = true;
         }
     }
 }

@@ -5,38 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MAD1Project.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="300">
-    <Grid Name="MainGrid" Width="300" Height="450"  
+        Title="MainWindow" Height="500" Width="300">
+    <Grid Name="MainGrid" Width="300" Height="500"  
        VerticalAlignment="Top" HorizontalAlignment="Center" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
-            <RowDefinition Height="75" />
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="70"/>
             <RowDefinition Height="75"/>
-            <RowDefinition Height="75"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="75"/>
         </Grid.RowDefinitions>
 
         <TextBlock FontSize="30" FontWeight="Bold" Grid.Row="0" Grid.Column="0"  
          Text="Analyzátor grafu" Padding="0 10 0 0" VerticalAlignment="Top" HorizontalAlignment="Center" />
-        <Border Grid.Column="0" Grid.Row="1" BorderBrush="DimGray" BorderThickness="0 0 0 1" Width="288" HorizontalAlignment="Center">
-            <Button x:Name="GraphGeneratorButton" Margin="15" Content="Vygenerovat graf" Click="GraphGeneratorButton_Click" FontSize="22"/>
+
+        <TextBlock FontSize="20" FontWeight="Bold" Grid.Row="1" Grid.Column="0"  
+         Text="Graf" VerticalAlignment="Top" HorizontalAlignment="Center" />
+
+        <Label Content="Počet vrcholů:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Bottom"/>
+        <TextBox Height="20" Grid.Column="0" Grid.Row="3" VerticalAlignment="Top" Name="NodeCountInput"/>
+
+        <Label Content="Parametr P:" Grid.Column="0" Grid.Row="4" VerticalAlignment="Bottom"/>
+        <TextBox Height="20" Grid.Column="0" Grid.Row="5" VerticalAlignment="Top" Name="ParameterPInput" KeyUp="GenerateGraphInputCheckEvent"/>
+
+
+        <Button x:Name="GraphGeneratorButton" Margin="15" Content="Vygenerovat graf" Grid.Row="6" Click="GraphGeneratorButton_Click" FontSize="22"/>
+
+        <Border Grid.Column="0" Grid.Row="7" BorderBrush="DimGray" BorderThickness="0 0 0 1" Width="288" HorizontalAlignment="Center">
+        <Button x:Name="GraphExport" Margin="15" Content="Exportovat graf" Click="GraphExport_Click" FontSize="22"/>
         </Border>
 
-        <TextBlock FontSize="20" Grid.Column="0" Grid.Row="2" Text="Analýza" 
+        <TextBlock FontSize="20" Grid.Column="0" Grid.Row="8" FontWeight="Bold" Text="Analýza" 
                    VerticalAlignment="Top"  HorizontalAlignment="Center" Padding="0 10 0 0"/>
 
-        <Button x:Name="ClusteringButton" Grid.Column="0" Grid.Row="3" Margin="15" Content="Shlukovací koeficient" 
+        <Button x:Name="ClusteringButton" Grid.Column="0" Grid.Row="9" Margin="15" Content="Analyzuj" 
                 Click="ClusteringButton_Click" FontSize="22"/>
-
-        <Button x:Name="DegreeDistributionButton" Grid.Column="0" Grid.Row="4" Margin="15" Content="Distribuce stupňů" 
-                Click="DegreeDistributionButton_Click" FontSize="22"/>
-
-        <Button x:Name="AverageDegreeButton" Grid.Column="0" Grid.Row="5" Margin="15" Content="Průměrný stupeň" 
-                Click="AverageDegreeButton_Click" FontSize="22"/>
 
     </Grid>
 </Window>
