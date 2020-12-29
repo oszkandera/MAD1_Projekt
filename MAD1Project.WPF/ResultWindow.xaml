@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MAD1Project.WPF"
         mc:Ignorable="d"
-        Title="ResultWindow" Height="740" Width="800">
+        Title="ResultWindow" Height="810" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"></ColumnDefinition>
@@ -17,9 +17,10 @@
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="300"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <oxy:Plot Grid.Column="0" Grid.Row="0" x:Name="Graph" Grid.ColumnSpan="2" Width="700" HorizontalAlignment="Center" Title="Distribuce stupňů">
+        <oxy:Plot Grid.Column="0" Grid.Row="0" x:Name="DegreeDistributionGraph" Grid.ColumnSpan="2" Width="700" HorizontalAlignment="Center" Title="Distribuce stupňů">
             <oxy:Plot.Series>
                 <oxy:LineSeries ItemsSource="{Binding DegreeDistributionPoints}"/>
             </oxy:Plot.Series>
@@ -44,6 +45,6 @@
                 <oxy:LinearAxis Position="Bottom" Title="Stupeň"/>
             </oxy:Plot.Axes>
         </oxy:Plot>
-
+        <Button Grid.Column="1" Grid.Row="4" x:Name="ExportAnalysis" Margin="15" Content="Exportovat analýzu" Click="ExportAnalysis_Click" FontSize="22"/>
     </Grid>
 </Window>

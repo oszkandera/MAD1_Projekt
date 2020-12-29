@@ -2,6 +2,7 @@
 using Mad1_Projekt.Generator;
 using Mad1_Projekt.Processor;
 using MAD1Project.Core.Extensions;
+using MAD1Project.WPF.Export;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,13 +41,15 @@ namespace MAD1Project.WPF
 
             ClusteringButton.IsEnabled = true;
             GraphExport.IsEnabled = true;
+            NodeCountInput.IsEnabled = false;
+            ParameterPInput.IsEnabled = false;
 
             MessageBox.Show("Graf úspěšně vytvořen");
         }
 
         private void ClusteringButton_Click(object sender, RoutedEventArgs e)
         {
-            var resultWindow = new ResultWindow(_graph);
+            var resultWindow = new ResultWindow(_graph, Convert.ToDouble(ParameterPInput.Text));
 
             resultWindow.Show();
 
